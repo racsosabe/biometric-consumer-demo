@@ -1,0 +1,58 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '2.7.5'
+	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+	id 'com.diffplug.spotless' version '6.8.0'
+	id 'com.github.spotbugs' version '5.0.9'
+	id 'jacoco'
+	id 'pmd'
+	id 'checkstyle'
+}
+
+group = 'com.biometrics'
+version = '1.0.0'
+
+java {
+	sourceCompatibility = '11'
+	targetCompatibility = '11'
+}
+
+repositories {
+	mavenCentral()
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+	implementation 'org.apache.commons:commons-collections4:4.4'
+	implementation 'commons-io:commons-io:2.11.0'
+
+
+	compileOnly 'org.projectlombok:lombok'
+	annotationProcessor 'org.projectlombok:lombok'
+
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'io.projectreactor:reactor-test'
+	testImplementation 'org.mockito:mockito-core'
+	testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
+	testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+	testImplementation 'org.junit.jupiter:junit-jupiter-params:5.8.2'
+	testImplementation 'com.squareup.okhttp3:okhttp:4.9.3'
+	testImplementation 'com.squareup.okhttp3:mockwebserver:4.9.3'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
+
+
+apply from: "$rootDir/gradle/static-analysis.gradle"
+apply from: "$rootDir/gradle/jacoco.gradle"

@@ -1,0 +1,24 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: biometrics-demo
+  jackson:
+    property-naming-strategy: SNAKE_CASE
+  profiles:
+    active: local
+  mvc:
+    async:
+      request-timeout: ${SPRING_MVC_ASYNC_REQUESTTIMEOUT}
+
+sunedu:
+  execution:
+    url: https://siuclientgw.sunedu.gob.pe
+    connectTimeout: ${SUNEDU_CONNECTTIMEOUT}
+    readTimeout: ${SUNEDU_READTIMEOUT}
+  api:
+    attach: /api/v1/Carne/imagen/adjuntar
+    list: /bi/v1/ImagenResultado/listarParametrosValor
+
+
