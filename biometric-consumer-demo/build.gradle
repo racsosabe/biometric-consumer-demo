@@ -7,6 +7,7 @@ plugins {
 	id 'jacoco'
 	id 'pmd'
 	id 'checkstyle'
+	id 'com.palantir.docker' version '0.22.1'
 }
 
 group = 'com.biometrics'
@@ -25,6 +26,17 @@ configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
+}
+
+docker {
+	name "${project.name}"
+	dockerfile file('Dockerfile')
+	copySpec.from(jar).rename(".*", "app.jar")
+	buildArgs(['JAR_FILE' : "app.jar"])
+}
+
+jar {
+	enabled = false
 }
 
 dependencies {
@@ -53,6 +65,7 @@ tasks.named('test') {
 	useJUnitPlatform()
 }
 
+tasks.named('bootJar') {     launchScript() }
 
 apply from: "$rootDir/gradle/static-analysis.gradle"
 apply from: "$rootDir/gradle/jacoco.gradle"

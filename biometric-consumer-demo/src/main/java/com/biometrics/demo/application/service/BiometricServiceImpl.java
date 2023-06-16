@@ -17,6 +17,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,11 +32,12 @@ import reactor.core.publisher.Mono;
 
 @Service
 @Slf4j
+@RequiredArgsConstructor
 public class BiometricServiceImpl implements BiometricService {
 
-  @Autowired private WebClient webClient;
+  private final WebClient webClient;
 
-  @Autowired private SuneduEndpointProperties suneduEndpointProperties;
+  private final SuneduEndpointProperties suneduEndpointProperties;
 
   @Override
   public Mono<GenericResponse<BiometricValidationResponse>> validate(ImageRequest data)
