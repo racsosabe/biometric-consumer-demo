@@ -20,18 +20,21 @@ import reactor.netty.http.client.HttpClient;
 @Configuration
 public class WebClientConfig {
 
-  @Autowired private SuneduProperties suneduProperties;
+    private final int CONNECT_TIMEOUT = 40000;
+    private final long READ_TIMEOUT = 25000;
+
+    private final String URL = "https://siuclientgw.sunedu.gob.pe";
 
   @Bean
   public WebClient webClient() {
     HttpClient httpClient =
         HttpClient.create()
-            .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, suneduProperties.getConnectTimeout())
+            .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, CONNECT_TIMEOUT)
             .doOnConnected(
                 conn ->
                     conn.addHandlerLast(
                         new ReadTimeoutHandler(
-                            suneduProperties.getReadTimeout(), TimeUnit.MILLISECONDS)));
+                                READ_TIMEOUT, TimeUnit.MILLISECONDS)));
 
     ClientHttpConnector connector = new ReactorClientHttpConnector(httpClient);
     ObjectMapper objectMapper = new ObjectMapper();
@@ -58,7 +61,7 @@ public class WebClientConfig {
         .exchangeStrategies(strategies)
         .clientConnector(connector)
         .filter(new MultipartExchangeFilterFunction())
-        .baseUrl(suneduProperties.getUrl())
+        .baseUrl(URL)
         .build();
   }
 }

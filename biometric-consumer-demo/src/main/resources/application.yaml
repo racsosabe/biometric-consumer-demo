@@ -8,15 +8,8 @@ spring:
     property-naming-strategy: SNAKE_CASE
   profiles:
     active: local
-  mvc:
-    async:
-      request-timeout: 10000
 
 sunedu:
-  execution:
-    url: https://siuclientgw.sunedu.gob.pe
-    connectTimeout: 40000
-    readTimeout: 25000
   api:
     attach: /api/v1/Carne/imagen/adjuntar
     list: /bi/v1/ImagenResultado/listarParametrosValor
