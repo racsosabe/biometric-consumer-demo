@@ -22,7 +22,7 @@ public class BiometricController {
 
   @Autowired private BiometricService biometricService;
 
-  @GetMapping(value = "/validate")
+  @PostMapping(value = "/validate")
   @ResponseStatus(HttpStatus.OK)
   public Mono<GenericResponse<BiometricValidationResponse>> validateImage(
       @RequestBody ImageRequest data) throws IOException {
